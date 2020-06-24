@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h2 style="margin-top: 70px">Post an Announcement</h2>
+        {{ form_start(formAnnouncement) }}
+        {{ form_widget(formAnnouncement) }}
+        <button type="submit" class="btn btn-primary">Add This</button>
+        {{ form_end(formAnnouncement) }}
+    </div>
+{% endblock %}
