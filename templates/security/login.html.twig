@@ -7,9 +7,12 @@
 
 
 {% block body %}
-    <p>&nbsp;</p>
-    <div class="container" style="margin-bottom: 130px">
-
+    <div class="container" style="margin-bottom: 130px; margin-top:100px">
+        {% for message in app.session.flashBag.get('error') %}
+        <div class="alert alert-danger" style="margin-top: 70px">
+           {{ message }}
+        </div>
+        {% endfor %}
         <form action="{{ path('security_login') }}" method="post">
             <div class="form-group">
                 <label for="email">Email :</label>
