@@ -6,6 +6,7 @@ use App\Entity\Gender;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -23,7 +24,9 @@ class RegistrationType extends AbstractType
             ->add('age')
             ->add('profession')
             ->add('about')
-            ->add('image')
+            ->add('image' , FileType::class, [
+                'required' => false
+            ] )
             ->add('gender',EntityType::class,[
                 'class' => Gender::class,
                 'choice_label' => 'type'

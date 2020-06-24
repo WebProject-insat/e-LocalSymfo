@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\AnnouncementRepository;
+use Doctrine\DBAL\Types\BlobType;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Entity(repositoryClass=AnnouncementRepository::class)
@@ -85,14 +88,19 @@ class Announcement
     private $userColoc;
 
     /**
-     * @ORM\Column(type="array")
+     * @ORM\Column(type="blob")
      */
-    private $images = [];
+    private $images = null;
 
     /**
      * @ORM\Column(type="datetime")
      */
     private $postedAt;
+
+    /**
+     * @ORM\Column(type="text")
+     */
+    private $Description;
 
     public function getId(): ?int
     {
@@ -261,12 +269,12 @@ class Announcement
         return $this;
     }
 
-    public function getImages(): ?array
+    public function getImages(): ?File
     {
         return $this->images;
     }
 
-    public function setImages(array $images): self
+    public function setImages(File $images = null): self
     {
         $this->images = $images;
 
@@ -281,6 +289,18 @@ class Announcement
     public function setPostedAt(\DateTimeInterface $postedAt): self
     {
         $this->postedAt = $postedAt;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->Description;
+    }
+
+    public function setDescription(string $Description): self
+    {
+        $this->Description = $Description;
 
         return $this;
     }

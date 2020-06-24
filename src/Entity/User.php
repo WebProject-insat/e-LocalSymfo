@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 
@@ -72,6 +73,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\Length(min="1")
      */
     private $age;
 
@@ -81,7 +83,7 @@ class User implements UserInterface
     private $profession;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="users")
+     * @ORM\ManyToOne(targetEntity=Gender::class, inversedBy="users",cascade={"persist"})
      * @ORM\JoinColumn(nullable=false)
      */
     private $gender;
@@ -91,16 +93,11 @@ class User implements UserInterface
      */
     private $about;
 
-    /**
-     * @ORM\OneToMany(targetEntity=Announcement::class, mappedBy="UserOwner")
-     */
-    private $owner;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Url(message="This is not a valid Url!")
+     * @ORM\Column(type="blob" , nullable=true)
      */
-    private $image;
+    private $image = null ;
 
     /**
      * @ORM\OneToOne(targetEntity=Announcement::class, inversedBy="userColoc", cascade={"persist", "remove"})
@@ -218,45 +215,17 @@ class User implements UserInterface
         return $this;
     }
 
-    /**
-     * @return Collection|Announcement[]
-     */
-    public function getOwner(): Collection
-    {
-        return $this->owner;
-    }
 
-    public function addOwner(Announcement $owner): self
-    {
-        if (!$this->owner->contains($owner)) {
-            $this->owner[] = $owner;
-            $owner->setUserOwner($this);
-        }
 
-        return $this;
-    }
-
-    public function removeOwner(Announcement $owner): self
-    {
-        if ($this->owner->contains($owner)) {
-            $this->owner->removeElement($owner);
-            // set the owning side to null (unless already changed)
-            if ($owner->getUserOwner() === $this) {
-                $owner->setUserOwner(null);
-            }
-        }
-
-        return $this;
-    }
-
-    public function getImage(): ?string
+    public function getImage(): ?File
     {
         return $this->image;
     }
 
-    public function setImage(string $image): self
+    public function setImage(File $image  = null): self
     {
-        $this->image = $image;
+
+            $this->image = $image;
 
         return $this;
     }
