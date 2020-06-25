@@ -28,10 +28,10 @@ class AppFixtures extends Fixture
         $manager->persist($gend1) ;
         $gend2 = new Gender() ;
         $gend2->setType('Female') ;
-        $manager->persist($gend1) ;
+        $manager->persist($gend2) ;
         $gend3 = new Gender() ;
         $gend3->setType('Other') ;
-        $manager->persist($gend1) ;
+        $manager->persist($gend3) ;
         $genders = [$gend1 , $gend2 , $gend3] ;
         for($b=0 ; $b < count($cityName) ; $b++){
             $city = new City() ;
